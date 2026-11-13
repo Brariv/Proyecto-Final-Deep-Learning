@@ -1,0 +1,7 @@
+{
+ "kind": "rules",
+ "train_seconds": 0.0,
+ "device": "cpu",
+ "name": "rules",
+ "profile": "full"
+}

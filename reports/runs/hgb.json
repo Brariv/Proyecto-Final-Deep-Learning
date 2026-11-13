@@ -1,0 +1,14 @@
+{
+ "kind": "hgb",
+ "weighted_loss": true,
+ "train_rows": 2155845,
+ "train_seconds": 101.70287823677063,
+ "device": "cpu",
+ "trees": 400,
+ "cat_cols": [
+  0,
+  1
+ ],
+ "name": "hgb",
+ "profile": "full"
+}

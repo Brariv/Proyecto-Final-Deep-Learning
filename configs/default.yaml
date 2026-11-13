@@ -1,0 +1,61 @@
+# Configuración de FraudScan. Todo lo que es un supuesto está marcado como tal.
+
+data:
+  ibm_dir: data/ibm                    # credit_card_transactions-ibm_v2.csv, sd254_cards.csv, sd254_users.csv
+  ulb_csv: data/ulb/creditcard.csv     # dataset secundario (ULB)
+  processed_dir: data/processed        # arreglos .npy generados por 01_prepare_data.py
+  artifacts_dir: artifacts             # modelos, umbrales y datos del demo
+  reports_dir: reports                 # métricas, tabla de iteraciones y figuras
+
+# División temporal (imita el uso real: se entrena con el pasado y se evalúa en el futuro).
+split:
+  train_end_year: 2015                 # entrenamiento: transacciones hasta 2015
+  val_years: [2016, 2017]              # validación: selección de umbrales y early stopping
+  test_years: [2018, 2019]             # prueba: nunca se usa para decidir nada
+
+features:
+  seq_len: 16                          # transacciones por secuencia para el modelo B (la actual + 15 previas)
+  min_loc_count: 20                    # ubicaciones con menos apariciones en train van a "otra"
+  # Variables categóricas que los modelos finales usan como embedding. La identidad de la ubicación
+  # ("loc") se deja fuera a propósito: memoriza los países de las campañas de fraude pasadas y no
+  # generaliza a una campaña nueva. Las señales genéricas de ubicación (extranjero, fuera de su
+  # estado, ubicación nueva para la tarjeta) sí se usan.
+  cat_use: [channel, mcc]
+
+# Perfiles de entrenamiento. "quick" corre en CPU en minutos; "full" está pensado para GPU.
+profiles:
+  quick:
+    neg_per_pos: 15                    # negativos muestreados por cada fraude en entrenamiento
+    epochs: 4
+    batch_size: 2048
+    val_neg_sample: 200000             # negativos de validación usados para early stopping
+    hgb_max_iter: 150
+  full:
+    neg_per_pos: 100
+    epochs: 12
+    batch_size: 4096
+    val_neg_sample: 1000000
+    hgb_max_iter: 400
+
+train:
+  seed: 42
+  lr: 0.001
+  weight_decay: 0.00001
+  dropout: 0.1
+  mlp_hidden: [128, 64]
+  lstm_hidden: 64
+  emb_dim: 8
+  patience: 3                          # épocas sin mejorar el valor en validación antes de parar
+  weight_clip: [0.2, 10.0]             # límites de los pesos por costo en la pérdida
+
+# Modelo de valor en USD. TODOS estos parámetros son SUPUESTOS por validar con el emisor;
+# el análisis de sensibilidad (±20 % y ±50 %) mide qué pasa si están equivocados.
+value:
+  chargeback_fee: 15.0                 # costo operativo por cada fraude que pasa (contracargo), además del monto
+  verification_cost: 0.25              # costo de pedir verificación (SMS/OTP y fracción de analista) por alerta
+  friction_cost_verify: 1.00           # costo de molestar a un cliente legítimo con una verificación
+  friction_cost_block: 10.00           # costo de bloquear una compra legítima (venta perdida, llamada, riesgo de fuga)
+  otp_effectiveness: 0.90              # fracción de fraudes verificados que la verificación sí detiene
+  vcpu_price_per_second: 0.000024      # precio de cómputo (USD por vCPU-segundo) para el costo de inferencia
+  sensitivity: [-0.5, -0.2, 0.2, 0.5]
+  bootstrap_samples: 500

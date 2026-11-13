@@ -1,0 +1,1035 @@
+{
+ "profile": "full",
+ "costs": {
+  "chargeback_fee": 15.0,
+  "verification_cost": 0.25,
+  "friction_cost_verify": 1.0,
+  "friction_cost_block": 10.0,
+  "otp_effectiveness": 0.9
+ },
+ "split": {
+  "train_end_year": 2015,
+  "val_years": [
+   2016,
+   2017
+  ],
+  "test_years": [
+   2018,
+   2019
+  ]
+ },
+ "counts": {
+  "train": 17172563,
+  "train_fraud": 21345,
+  "val": 3432284,
+  "val_fraud": 3834,
+  "test": 3445553,
+  "test_fraud": 4578
+ },
+ "results": [
+  {
+   "name": "rules",
+   "val": {
+    "value_usd": 113486.15690009594,
+    "oracle_usd": 578852.0197563805,
+    "fraud_total_usd": 578852.0197563805,
+    "fraud_missed_usd": 298322.25985843316,
+    "n": 3432284,
+    "n_fraud": 3834,
+    "n_verify": 112155,
+    "n_block": 34,
+    "tp": 903,
+    "fp": 111286,
+    "fn": 2931,
+    "fp_verify": 111258,
+    "fp_block": 28,
+    "precision": 0.008048917451800088,
+    "recall": 0.23552425665101723,
+    "f1": 0.015565879179128278,
+    "alert_rate": 0.032686397745641096,
+    "pct_of_oracle": 0.1960538324593883
+   },
+   "test": {
+    "value_usd": 211965.59152232058,
+    "oracle_usd": 456705.31055086106,
+    "fraud_total_usd": 456705.31055086106,
+    "fraud_missed_usd": 82353.62000576966,
+    "n": 3445553,
+    "n_fraud": 4578,
+    "n_verify": 106899,
+    "n_block": 136,
+    "tp": 2078,
+    "fp": 104957,
+    "fn": 2500,
+    "fp_verify": 104916,
+    "fp_block": 41,
+    "precision": 0.019414210305040407,
+    "recall": 0.45391000436872,
+    "f1": 0.037235805864908204,
+    "alert_rate": 0.031064679602954882,
+    "value_ci95": {
+     "low": 167280.06167250386,
+     "high": 262437.68355901126,
+     "std": 24340.796042786038
+    },
+    "operation_cost_usd": 0.0,
+    "net_value_usd": 211965.59152232058,
+    "net_value_per_month_usd": 8831.899646763357,
+    "net_value_per_million_tx_usd": 61518.598472384714,
+    "pct_of_oracle": 0.464118955101826
+   },
+   "by_year": {
+    "2016": {
+     "n_fraud": 3579,
+     "recall": 0.2224084939927354,
+     "precision": 0.014279563719862227,
+     "value_usd": 163638.94798285962,
+     "oracle_usd": 552363.9298476875
+    },
+    "2017": {
+     "n_fraud": 255,
+     "recall": 0.4196078431372549,
+     "precision": 0.001895650633359908,
+     "value_usd": -50152.791082763666,
+     "oracle_usd": 26488.089908692986
+    },
+    "2018": {
+     "n_fraud": 2491,
+     "recall": 0.4484142914492172,
+     "precision": 0.02109059325554171,
+     "value_usd": 120190.9482660711,
+     "oracle_usd": 249974.45029157773
+    },
+    "2019": {
+     "n_fraud": 2087,
+     "recall": 0.460469573550551,
+     "precision": 0.017772270819077913,
+     "value_usd": 91774.64325624947,
+     "oracle_usd": 206730.86025928333
+    }
+   },
+   "latency": {
+    "p50_ms": 0.0,
+    "p95_ms": 0.0,
+    "throughput_tx_s": Infinity
+   },
+   "cost_per_1k_predictions_usd": 0.0
+  },
+  {
+   "name": "hgb",
+   "thresholds": {
+    "t_verify": 0.032054925337433815,
+    "t_block": 0.8016597330570221
+   },
+   "f1_threshold": 0.7960671782493591,
+   "ap_val": 0.7954571299620886,
+   "ap_test": 0.1750758583927717,
+   "auc_val": 0.9956156209707788,
+   "auc_test": 0.9630372709590109,
+   "at_f1_threshold": {
+    "value_usd": 65001.06227513067,
+    "oracle_usd": 456705.31055086106,
+    "fraud_total_usd": 456705.31055086106,
+    "fraud_missed_usd": 383801.6302451603,
+    "n": 3445553,
+    "n_fraud": 4578,
+    "n_verify": 817,
+    "n_block": 0,
+    "tp": 409,
+    "fp": 408,
+    "fn": 4169,
+    "fp_verify": 408,
+    "fp_block": 0,
+    "precision": 0.5006119951040392,
+    "recall": 0.08934032328527741,
+    "f1": 0.15162187210379982,
+    "alert_rate": 0.00023711723488218002
+   },
+   "val": {
+    "value_usd": 505453.29970355664,
+    "oracle_usd": 578852.0197563805,
+    "fraud_total_usd": 578852.0197563805,
+    "fraud_missed_usd": 42056.89005197957,
+    "n": 3432284,
+    "n_fraud": 3834,
+    "n_verify": 14031,
+    "n_block": 3002,
+    "tp": 3407,
+    "fp": 13626,
+    "fn": 427,
+    "fp_verify": 13233,
+    "fp_block": 393,
+    "precision": 0.20002348382551519,
+    "recall": 0.8886280646844027,
+    "f1": 0.326544304404083,
+    "alert_rate": 0.004962584681221018,
+    "pct_of_oracle": 0.8731995094640683
+   },
+   "test": {
+    "value_usd": 192008.59342029746,
+    "oracle_usd": 456705.31055086106,
+    "fraud_total_usd": 456705.31055086106,
+    "fraud_missed_usd": 228738.28011547402,
+    "n": 3445553,
+    "n_fraud": 4578,
+    "n_verify": 14282,
+    "n_block": 799,
+    "tp": 1875,
+    "fp": 13206,
+    "fn": 2703,
+    "fp_verify": 12810,
+    "fp_block": 396,
+    "precision": 0.12432862542271733,
+    "recall": 0.40956749672346004,
+    "f1": 0.1907523271783916,
+    "alert_rate": 0.00437694616800264,
+    "value_ci95": {
+     "low": 167311.45604618435,
+     "high": 220391.20947250037,
+     "std": 13640.7105521766
+    },
+    "operation_cost_usd": 0.22478627897804637,
+    "net_value_usd": 192008.3686340185,
+    "net_value_per_month_usd": 8000.348693084104,
+    "net_value_per_million_tx_usd": 55726.430164916485,
+    "pct_of_oracle": 0.42042119718008925
+   },
+   "by_year": {
+    "2016": {
+     "n_fraud": 3579,
+     "recall": 0.9189717798267673,
+     "precision": 0.32680842607313193,
+     "value_usd": 500673.7718002293,
+     "oracle_usd": 552363.9298476875
+    },
+    "2017": {
+     "n_fraud": 255,
+     "recall": 0.4627450980392157,
+     "precision": 0.016932127995408237,
+     "value_usd": 4779.5279033273455,
+     "oracle_usd": 26488.089908692986
+    },
+    "2018": {
+     "n_fraud": 2491,
+     "recall": 0.42713769570453636,
+     "precision": 0.1366029015277956,
+     "value_usd": 107460.56516039371,
+     "oracle_usd": 249974.45029157773
+    },
+    "2019": {
+     "n_fraud": 2087,
+     "recall": 0.3885960709151893,
+     "precision": 0.1112177729018102,
+     "value_usd": 84548.02825990376,
+     "oracle_usd": 206730.86025928333
+    }
+   },
+   "latency": {
+    "p50_ms": 2.7183139999351624,
+    "p95_ms": 3.0705340000622527,
+    "throughput_tx_s": 117454.86547266338
+   },
+   "cost_per_1k_predictions_usd": 6.52395359984439e-05,
+   "ap_train_sample": 0.9712633756731438
+  },
+  {
+   "name": "mlp_loc",
+   "thresholds": {
+    "t_verify": 0.054514797404408455,
+    "t_block": 0.7231371998786926
+   },
+   "f1_threshold": 0.7421647310256958,
+   "ap_val": 0.7340550823184322,
+   "ap_test": 0.04179773370643935,
+   "auc_val": 0.9911236725834265,
+   "auc_test": 0.9256422840266856,
+   "at_f1_threshold": {
+    "value_usd": 13418.428060150149,
+    "oracle_usd": 456705.31055086106,
+    "fraud_total_usd": 456705.31055086106,
+    "fraud_missed_usd": 441320.39048402756,
+    "n": 3445553,
+    "n_fraud": 4578,
+    "n_verify": 428,
+    "n_block": 0,
+    "tp": 107,
+    "fp": 321,
+    "fn": 4471,
+    "fp_verify": 321,
+    "fp_block": 0,
+    "precision": 0.25,
+    "recall": 0.023372651813018785,
+    "f1": 0.042748701558130243,
+    "alert_rate": 0.0001242180863275068
+   },
+   "val": {
+    "value_usd": 474419.98475799005,
+    "oracle_usd": 578852.0197563805,
+    "fraud_total_usd": 578852.0197563805,
+    "fraud_missed_usd": 64981.60999099165,
+    "n": 3432284,
+    "n_fraud": 3834,
+    "n_verify": 18680,
+    "n_block": 2795,
+    "tp": 3227,
+    "fp": 18248,
+    "fn": 607,
+    "fp_verify": 17842,
+    "fp_block": 406,
+    "precision": 0.150267753201397,
+    "recall": 0.841679707876891,
+    "f1": 0.2550080998854163,
+    "alert_rate": 0.006256766631199516,
+    "pct_of_oracle": 0.8195876814209919
+   },
+   "test": {
+    "value_usd": 45122.89215635229,
+    "oracle_usd": 456705.31055086106,
+    "fraud_total_usd": 456705.31055086106,
+    "fraud_missed_usd": 381466.81038456224,
+    "n": 3445553,
+    "n_fraud": 4578,
+    "n_verify": 16925,
+    "n_block": 459,
+    "tp": 653,
+    "fp": 16731,
+    "fn": 3925,
+    "fp_verify": 16379,
+    "fp_block": 352,
+    "precision": 0.037563276576161986,
+    "recall": 0.14263870685889035,
+    "f1": 0.05946635096985702,
+    "alert_rate": 0.005045343954947145,
+    "value_ci95": {
+     "low": 33057.60066242647,
+     "high": 59051.51150625789,
+     "std": 6708.293605714214
+    },
+    "operation_cost_usd": 0.003707800930596314,
+    "net_value_usd": 45122.888448551355,
+    "net_value_per_month_usd": 1880.120352022973,
+    "net_value_per_million_tx_usd": 13095.97862768367,
+    "pct_of_oracle": 0.09880089220317304
+   },
+   "by_year": {
+    "2016": {
+     "n_fraud": 3579,
+     "recall": 0.8924280525286393,
+     "precision": 0.2559705080942459,
+     "value_usd": 482106.3077984635,
+     "oracle_usd": 552363.9298476875
+    },
+    "2017": {
+     "n_fraud": 255,
+     "recall": 0.12941176470588237,
+     "precision": 0.003667889296432144,
+     "value_usd": -7686.32304047346,
+     "oracle_usd": 26488.089908692986
+    },
+    "2018": {
+     "n_fraud": 2491,
+     "recall": 0.16981132075471697,
+     "precision": 0.046994778357960225,
+     "value_usd": 31973.94110924471,
+     "oracle_usd": 249974.45029157773
+    },
+    "2019": {
+     "n_fraud": 2087,
+     "recall": 0.11020603737422137,
+     "precision": 0.0274364785876178,
+     "value_usd": 13148.951047107577,
+     "oracle_usd": 206730.86025928333
+    }
+   },
+   "latency": {
+    "p50_ms": 0.0448380000079851,
+    "p95_ms": 0.07226624999248088,
+    "throughput_tx_s": 1073272.884890938
+   },
+   "cost_per_1k_predictions_usd": 1.0761120001916423e-06,
+   "ap_train_sample": 0.8786034600415594
+  },
+  {
+   "name": "mlp_plain",
+   "thresholds": {
+    "t_verify": 0.0542345754802227,
+    "t_block": 0.749156653881073
+   },
+   "f1_threshold": 0.7494555711746216,
+   "ap_val": 0.7602474951208728,
+   "ap_test": 0.3591473100605422,
+   "auc_val": 0.9952675657925814,
+   "auc_test": 0.9906568889534446,
+   "at_f1_threshold": {
+    "value_usd": 110202.26024510729,
+    "oracle_usd": 456705.31055086106,
+    "fraud_total_usd": 456705.31055086106,
+    "fraud_missed_usd": 333543.9102785196,
+    "n": 3445553,
+    "n_fraud": 4578,
+    "n_verify": 1116,
+    "n_block": 0,
+    "tp": 752,
+    "fp": 364,
+    "fn": 3826,
+    "fp_verify": 364,
+    "fp_block": 0,
+    "precision": 0.6738351254480287,
+    "recall": 0.16426387068588905,
+    "f1": 0.26413768879522304,
+    "alert_rate": 0.0003238957578072373
+   },
+   "val": {
+    "value_usd": 490606.61275302235,
+    "oracle_usd": 578852.0197563805,
+    "fraud_total_usd": 578852.0197563805,
+    "fraud_missed_usd": 42401.650005705655,
+    "n": 3432284,
+    "n_fraud": 3834,
+    "n_verify": 22779,
+    "n_block": 2817,
+    "tp": 3432,
+    "fp": 22164,
+    "fn": 402,
+    "fp_verify": 21770,
+    "fp_block": 394,
+    "precision": 0.13408345053914675,
+    "recall": 0.8951486697965572,
+    "f1": 0.23323139653414882,
+    "alert_rate": 0.007457424851789653,
+    "pct_of_oracle": 0.847551007871584
+   },
+   "test": {
+    "value_usd": 302915.27247158776,
+    "oracle_usd": 456705.31055086106,
+    "fraud_total_usd": 456705.31055086106,
+    "fraud_missed_usd": 101791.03005694412,
+    "n": 3445553,
+    "n_fraud": 4578,
+    "n_verify": 22148,
+    "n_block": 1118,
+    "tp": 3243,
+    "fp": 20023,
+    "fn": 1335,
+    "fp_verify": 19659,
+    "fp_block": 364,
+    "precision": 0.13938794807874152,
+    "recall": 0.7083879423328965,
+    "f1": 0.2329406694440454,
+    "alert_rate": 0.006752471954429376,
+    "value_ci95": {
+     "low": 266882.3957798112,
+     "high": 339038.78576205566,
+     "std": 18484.41156104528
+    },
+    "operation_cost_usd": 0.0032660948170625415,
+    "net_value_usd": 302915.2692054929,
+    "net_value_per_month_usd": 12621.469550228872,
+    "net_value_per_million_tx_usd": 87914.84827123336,
+    "pct_of_oracle": 0.6632619885812638
+   },
+   "by_year": {
+    "2016": {
+     "n_fraud": 3579,
+     "recall": 0.9052808046940486,
+     "precision": 0.22401991288114498,
+     "value_usd": 485454.1718238896,
+     "oracle_usd": 552363.9298476875
+    },
+    "2017": {
+     "n_fraud": 255,
+     "recall": 0.7529411764705882,
+     "precision": 0.017246025330099703,
+     "value_usd": 5152.4409291327,
+     "oracle_usd": 26488.089908692986
+    },
+    "2018": {
+     "n_fraud": 2491,
+     "recall": 0.7230028101164191,
+     "precision": 0.14960956969596279,
+     "value_usd": 170384.94423020503,
+     "oracle_usd": 249974.45029157773
+    },
+    "2019": {
+     "n_fraud": 2087,
+     "recall": 0.6909439386679445,
+     "precision": 0.128428927680798,
+     "value_usd": 132530.32824138273,
+     "oracle_usd": 206730.86025928333
+    }
+   },
+   "latency": {
+    "p50_ms": 0.03949649999412941,
+    "p95_ms": 0.050866000083260685,
+    "throughput_tx_s": 1761637.8415613275
+   },
+   "cost_per_1k_predictions_usd": 9.479159998591059e-07,
+   "ap_train_sample": 0.8648325541533197
+  },
+  {
+   "name": "mlp_cost",
+   "thresholds": {
+    "t_verify": 0.06398460268974304,
+    "t_block": 0.7015909254550934
+   },
+   "f1_threshold": 0.7581449151039124,
+   "ap_val": 0.7141111091212786,
+   "ap_test": 0.23988180681378135,
+   "auc_val": 0.9913860575337213,
+   "auc_test": 0.9748023008606628,
+   "at_f1_threshold": {
+    "value_usd": 118965.65138118267,
+    "oracle_usd": 456705.31055086106,
+    "fraud_total_usd": 456705.31055086106,
+    "fraud_missed_usd": 323877.92012732476,
+    "n": 3445553,
+    "n_fraud": 4578,
+    "n_verify": 892,
+    "n_block": 0,
+    "tp": 536,
+    "fp": 356,
+    "fn": 4042,
+    "fp_verify": 356,
+    "fp_block": 0,
+    "precision": 0.600896860986547,
+    "recall": 0.11708169506334644,
+    "f1": 0.19597806215722122,
+    "alert_rate": 0.00025888442290685995
+   },
+   "val": {
+    "value_usd": 501030.1567385468,
+    "oracle_usd": 578852.0197563805,
+    "fraud_total_usd": 578852.0197563805,
+    "fraud_missed_usd": 41265.35001447983,
+    "n": 3432284,
+    "n_fraud": 3834,
+    "n_verify": 16190,
+    "n_block": 2844,
+    "tp": 3235,
+    "fp": 15799,
+    "fn": 599,
+    "fp_verify": 15275,
+    "fp_block": 524,
+    "precision": 0.16995902069980034,
+    "recall": 0.8437663015127804,
+    "f1": 0.2829281091481546,
+    "alert_rate": 0.005545578396193322,
+    "pct_of_oracle": 0.8655582767931149
+   },
+   "test": {
+    "value_usd": 297909.9725264389,
+    "oracle_usd": 456705.31055086106,
+    "fraud_total_usd": 456705.31055086106,
+    "fraud_missed_usd": 116872.14000845328,
+    "n": 3445553,
+    "n_fraud": 4578,
+    "n_verify": 15597,
+    "n_block": 1090,
+    "tp": 2386,
+    "fp": 14301,
+    "fn": 2192,
+    "fp_verify": 13827,
+    "fp_block": 474,
+    "precision": 0.14298555761970397,
+    "recall": 0.5211882918304936,
+    "f1": 0.2244063014342817,
+    "alert_rate": 0.004843054220904453,
+    "value_ci95": {
+     "low": 263165.3964199593,
+     "high": 334651.459600252,
+     "std": 18085.53587620707
+    },
+    "operation_cost_usd": 0.0033064904856864997,
+    "net_value_usd": 297909.9692199484,
+    "net_value_per_month_usd": 12412.915384164517,
+    "net_value_per_million_tx_usd": 86462.16419249636,
+    "pct_of_oracle": 0.6523024051704389
+   },
+   "by_year": {
+    "2016": {
+     "n_fraud": 3579,
+     "recall": 0.8644872869516624,
+     "precision": 0.27746390458254866,
+     "value_usd": 493379.88782558776,
+     "oracle_usd": 552363.9298476875
+    },
+    "2017": {
+     "n_fraud": 255,
+     "recall": 0.5529411764705883,
+     "precision": 0.017886591399213496,
+     "value_usd": 7650.268912959098,
+     "oracle_usd": 26488.089908692986
+    },
+    "2018": {
+     "n_fraud": 2491,
+     "recall": 0.5363307908470494,
+     "precision": 0.15261594699565914,
+     "value_usd": 166851.82526031433,
+     "oracle_usd": 249974.45029157773
+    },
+    "2019": {
+     "n_fraud": 2087,
+     "recall": 0.5031145184475323,
+     "precision": 0.13235850245808647,
+     "value_usd": 131058.14726612456,
+     "oracle_usd": 206730.86025928333
+    }
+   },
+   "latency": {
+    "p50_ms": 0.03998500005764072,
+    "p95_ms": 0.05462694981588361,
+    "throughput_tx_s": 1250528.5589910548
+   },
+   "cost_per_1k_predictions_usd": 9.596400013833773e-07,
+   "ap_train_sample": 0.8252628412840435
+  },
+  {
+   "name": "lstm_cost",
+   "thresholds": {
+    "t_verify": 0.022433741949498653,
+    "t_block": 0.721739798784256
+   },
+   "f1_threshold": 0.7848268151283264,
+   "ap_val": 0.8186527666454816,
+   "ap_test": 0.5638386020739916,
+   "auc_val": 0.9957129230171364,
+   "auc_test": 0.9918788691158015,
+   "at_f1_threshold": {
+    "value_usd": 181710.24932703786,
+    "oracle_usd": 456705.31055086106,
+    "fraud_total_usd": 456705.31055086106,
+    "fraud_missed_usd": 254104.20018748567,
+    "n": 3445553,
+    "n_fraud": 4578,
+    "n_verify": 1575,
+    "n_block": 0,
+    "tp": 1338,
+    "fp": 237,
+    "fn": 3240,
+    "fp_verify": 237,
+    "fp_block": 0,
+    "precision": 0.8495238095238096,
+    "recall": 0.29226736566186107,
+    "f1": 0.4349098000975134,
+    "alert_rate": 0.0004571109485182785
+   },
+   "val": {
+    "value_usd": 517998.6407780297,
+    "oracle_usd": 578852.0197563805,
+    "fraud_total_usd": 578852.0197563805,
+    "fraud_missed_usd": 29962.97998468578,
+    "n": 3432284,
+    "n_fraud": 3834,
+    "n_verify": 14875,
+    "n_block": 3214,
+    "tp": 3471,
+    "fp": 14618,
+    "fn": 363,
+    "fp_verify": 14182,
+    "fp_block": 436,
+    "precision": 0.191884570733595,
+    "recall": 0.905320813771518,
+    "f1": 0.3166537426447111,
+    "alert_rate": 0.005270251529302354,
+    "pct_of_oracle": 0.8948723043171518
+   },
+   "test": {
+    "value_usd": 364847.9345166797,
+    "oracle_usd": 456705.31055086106,
+    "fraud_total_usd": 456705.31055086106,
+    "fraud_missed_usd": 54706.5200145822,
+    "n": 3445553,
+    "n_fraud": 4578,
+    "n_verify": 14096,
+    "n_block": 1762,
+    "tp": 3499,
+    "fp": 12359,
+    "fn": 1079,
+    "fp_verify": 12064,
+    "fp_block": 295,
+    "precision": 0.22064573086139488,
+    "recall": 0.7643075578855395,
+    "f1": 0.3424349187707966,
+    "alert_rate": 0.004602454235938324,
+    "value_ci95": {
+     "low": 324053.469605148,
+     "high": 407618.0051935073,
+     "std": 21213.73991909428
+    },
+    "operation_cost_usd": 0.022038253147852314,
+    "net_value_usd": 364847.9124784266,
+    "net_value_per_month_usd": 15201.996353267774,
+    "net_value_per_million_tx_usd": 105889.50815106505,
+    "pct_of_oracle": 0.79886948123422
+   },
+   "by_year": {
+    "2016": {
+     "n_fraud": 3579,
+     "recall": 0.9184129645152277,
+     "precision": 0.2805804524114383,
+     "value_usd": 505632.74687125906,
+     "oracle_usd": 552363.9298476875
+    },
+    "2017": {
+     "n_fraud": 255,
+     "recall": 0.7215686274509804,
+     "precision": 0.028867273297772198,
+     "value_usd": 12365.893906770649,
+     "oracle_usd": 26488.089908692986
+    },
+    "2018": {
+     "n_fraud": 2491,
+     "recall": 0.7872340425531915,
+     "precision": 0.2357254477701647,
+     "value_usd": 204539.72626054846,
+     "oracle_usd": 249974.45029157773
+    },
+    "2019": {
+     "n_fraud": 2087,
+     "recall": 0.736942980354576,
+     "precision": 0.20400583631781402,
+     "value_usd": 160308.2082561312,
+     "oracle_usd": 206730.86025928333
+    }
+   },
+   "latency": {
+    "p50_ms": 0.2665060000026642,
+    "p95_ms": 0.3730945499455629,
+    "throughput_tx_s": 65152.87503365058
+   },
+   "cost_per_1k_predictions_usd": 6.396144000063942e-06,
+   "ap_train_sample": 0.930442030694369
+  }
+ ],
+ "sensitivity": {
+  "A": [
+   {
+    "param": "chargeback_fee",
+    "change": -0.5,
+    "value_fixed_thresholds": 281342.4725264389,
+    "value_reoptimized": 281342.4725264389,
+    "t_verify": 0.06398460268974304,
+    "t_block": 0.7015909254550934
+   },
+   {
+    "param": "chargeback_fee",
+    "change": -0.2,
+    "value_fixed_thresholds": 291282.9725264389,
+    "value_reoptimized": 291282.9725264389,
+    "t_verify": 0.06398460268974304,
+    "t_block": 0.7015909254550934
+   },
+   {
+    "param": "chargeback_fee",
+    "change": 0.2,
+    "value_fixed_thresholds": 304536.9725264389,
+    "value_reoptimized": 308182.01355418155,
+    "t_verify": 0.06072636507451534,
+    "t_block": 0.7015909254550934
+   },
+   {
+    "param": "chargeback_fee",
+    "change": 0.5,
+    "value_fixed_thresholds": 314477.4725264389,
+    "value_reoptimized": 318292.61355418153,
+    "t_verify": 0.06072636507451534,
+    "t_block": 0.7015909254550934
+   },
+   {
+    "param": "verification_cost",
+    "change": -0.5,
+    "value_fixed_thresholds": 299859.5975264389,
+    "value_reoptimized": 303490.11355418153,
+    "t_verify": 0.06072636507451534,
+    "t_block": 0.7015909254550934
+   },
+   {
+    "param": "verification_cost",
+    "change": -0.2,
+    "value_fixed_thresholds": 298689.8225264389,
+    "value_reoptimized": 302261.01355418155,
+    "t_verify": 0.06072636507451534,
+    "t_block": 0.7015909254550934
+   },
+   {
+    "param": "verification_cost",
+    "change": 0.2,
+    "value_fixed_thresholds": 297130.1225264389,
+    "value_reoptimized": 297130.1225264389,
+    "t_verify": 0.06398460268974304,
+    "t_block": 0.7015909254550934
+   },
+   {
+    "param": "verification_cost",
+    "change": 0.5,
+    "value_fixed_thresholds": 295960.3475264389,
+    "value_reoptimized": 295960.3475264389,
+    "t_verify": 0.06398460268974304,
+    "t_block": 0.7015909254550934
+   },
+   {
+    "param": "friction_cost_verify",
+    "change": -0.5,
+    "value_fixed_thresholds": 304823.4725264389,
+    "value_reoptimized": 323036.403522962,
+    "t_verify": 0.041580805554986,
+    "t_block": 0.7015909254550934
+   },
+   {
+    "param": "friction_cost_verify",
+    "change": -0.2,
+    "value_fixed_thresholds": 300675.37252643896,
+    "value_reoptimized": 304356.81355418154,
+    "t_verify": 0.06072636507451534,
+    "t_block": 0.7015909254550934
+   },
+   {
+    "param": "friction_cost_verify",
+    "change": 0.2,
+    "value_fixed_thresholds": 295144.5725264389,
+    "value_reoptimized": 295144.5725264389,
+    "t_verify": 0.06398460268974304,
+    "t_block": 0.7015909254550934
+   },
+   {
+    "param": "friction_cost_verify",
+    "change": 0.5,
+    "value_fixed_thresholds": 290996.4725264389,
+    "value_reoptimized": 287271.431524982,
+    "t_verify": 0.07067238911986351,
+    "t_block": 0.7015909254550934
+   },
+   {
+    "param": "friction_cost_block",
+    "change": -0.5,
+    "value_fixed_thresholds": 300279.9725264389,
+    "value_reoptimized": 302312.1125226814,
+    "t_verify": 0.06398460268974304,
+    "t_block": 0.5610758662223816
+   },
+   {
+    "param": "friction_cost_block",
+    "change": -0.2,
+    "value_fixed_thresholds": 298857.9725264389,
+    "value_reoptimized": 298916.91552494356,
+    "t_verify": 0.06398460268974304,
+    "t_block": 0.6949147582054138
+   },
+   {
+    "param": "friction_cost_block",
+    "change": 0.2,
+    "value_fixed_thresholds": 296961.9725264389,
+    "value_reoptimized": 296899.67752729246,
+    "t_verify": 0.06398460268974304,
+    "t_block": 0.7642332911491394
+   },
+   {
+    "param": "friction_cost_block",
+    "change": 0.5,
+    "value_fixed_thresholds": 295539.9725264389,
+    "value_reoptimized": 295752.47152639215,
+    "t_verify": 0.06398460268974304,
+    "t_block": 0.7775000035762787
+   },
+   {
+    "param": "otp_effectiveness",
+    "change": -0.5,
+    "value_fixed_thresholds": 210353.70645457896,
+    "value_reoptimized": 238959.1075230943,
+    "t_verify": 0.09149303287267685,
+    "t_block": 0.3109619617462158
+   },
+   {
+    "param": "otp_effectiveness",
+    "change": -0.2,
+    "value_fixed_thresholds": 262887.46609769494,
+    "value_reoptimized": 265959.8252860084,
+    "t_verify": 0.07067238911986351,
+    "t_block": 0.5610758662223816
+   },
+   {
+    "param": "otp_effectiveness",
+    "change": 0.2,
+    "value_fixed_thresholds": 317366.9205424078,
+    "value_reoptimized": 325378.1605732329,
+    "t_verify": 0.06072636507451534,
+    "t_block": 0.994269847869873
+   },
+   {
+    "param": "otp_effectiveness",
+    "change": 0.5,
+    "value_fixed_thresholds": 317366.9205424078,
+    "value_reoptimized": 325378.1605732329,
+    "t_verify": 0.06072636507451534,
+    "t_block": 0.994269847869873
+   }
+  ],
+  "B": [
+   {
+    "param": "chargeback_fee",
+    "change": -0.5,
+    "value_fixed_thresholds": 340129.4345166797,
+    "value_reoptimized": 340129.4345166797,
+    "t_verify": 0.022433741949498653,
+    "t_block": 0.721739798784256
+   },
+   {
+    "param": "chargeback_fee",
+    "change": -0.2,
+    "value_fixed_thresholds": 354960.5345166797,
+    "value_reoptimized": 354960.5345166797,
+    "t_verify": 0.022433741949498653,
+    "t_block": 0.721739798784256
+   },
+   {
+    "param": "chargeback_fee",
+    "change": 0.2,
+    "value_fixed_thresholds": 374735.3345166797,
+    "value_reoptimized": 374735.3345166797,
+    "t_verify": 0.022433741949498653,
+    "t_block": 0.721739798784256
+   },
+   {
+    "param": "chargeback_fee",
+    "change": 0.5,
+    "value_fixed_thresholds": 389566.4345166797,
+    "value_reoptimized": 389566.4345166797,
+    "t_verify": 0.022433741949498653,
+    "t_block": 0.721739798784256
+   },
+   {
+    "param": "verification_cost",
+    "change": -0.5,
+    "value_fixed_thresholds": 366609.9345166797,
+    "value_reoptimized": 367055.9715166325,
+    "t_verify": 0.021912175230681896,
+    "t_block": 0.721739798784256
+   },
+   {
+    "param": "verification_cost",
+    "change": -0.2,
+    "value_fixed_thresholds": 365552.73451667966,
+    "value_reoptimized": 365552.73451667966,
+    "t_verify": 0.022433741949498653,
+    "t_block": 0.721739798784256
+   },
+   {
+    "param": "verification_cost",
+    "change": 0.2,
+    "value_fixed_thresholds": 364143.1345166797,
+    "value_reoptimized": 364143.1345166797,
+    "t_verify": 0.022433741949498653,
+    "t_block": 0.721739798784256
+   },
+   {
+    "param": "verification_cost",
+    "change": 0.5,
+    "value_fixed_thresholds": 363085.9345166797,
+    "value_reoptimized": 363085.9345166797,
+    "t_verify": 0.022433741949498653,
+    "t_block": 0.721739798784256
+   },
+   {
+    "param": "friction_cost_verify",
+    "change": -0.5,
+    "value_fixed_thresholds": 370879.9345166797,
+    "value_reoptimized": 375376.69953200314,
+    "t_verify": 0.016420532017946243,
+    "t_block": 0.721739798784256
+   },
+   {
+    "param": "friction_cost_verify",
+    "change": -0.2,
+    "value_fixed_thresholds": 367260.7345166797,
+    "value_reoptimized": 367721.8465166325,
+    "t_verify": 0.021912175230681896,
+    "t_block": 0.721739798784256
+   },
+   {
+    "param": "friction_cost_verify",
+    "change": 0.2,
+    "value_fixed_thresholds": 362435.1345166797,
+    "value_reoptimized": 362435.1345166797,
+    "t_verify": 0.022433741949498653,
+    "t_block": 0.721739798784256
+   },
+   {
+    "param": "friction_cost_verify",
+    "change": 0.5,
+    "value_fixed_thresholds": 358815.9345166797,
+    "value_reoptimized": 357455.6655186409,
+    "t_verify": 0.023824413307011127,
+    "t_block": 0.721739798784256
+   },
+   {
+    "param": "friction_cost_block",
+    "change": -0.5,
+    "value_fixed_thresholds": 366322.9345166797,
+    "value_reoptimized": 368695.4365244083,
+    "t_verify": 0.022433741949498653,
+    "t_block": 0.5436936318874359
+   },
+   {
+    "param": "friction_cost_block",
+    "change": -0.2,
+    "value_fixed_thresholds": 365437.9345166797,
+    "value_reoptimized": 365437.9345166797,
+    "t_verify": 0.022433741949498653,
+    "t_block": 0.721739798784256
+   },
+   {
+    "param": "friction_cost_block",
+    "change": 0.2,
+    "value_fixed_thresholds": 364257.9345166797,
+    "value_reoptimized": 363541.5495189866,
+    "t_verify": 0.022433741949498653,
+    "t_block": 0.7856772840023041
+   },
+   {
+    "param": "friction_cost_block",
+    "change": 0.5,
+    "value_fixed_thresholds": 363372.9345166797,
+    "value_reoptimized": 360414.3175187623,
+    "t_verify": 0.022433741949498653,
+    "t_block": 0.8904810547828674
+   },
+   {
+    "param": "otp_effectiveness",
+    "change": -0.5,
+    "value_fixed_thresholds": 281090.0824284834,
+    "value_reoptimized": 315601.7930316691,
+    "t_verify": 0.04952923208475113,
+    "t_block": 0.23829594254493713
+   },
+   {
+    "param": "otp_effectiveness",
+    "change": -0.2,
+    "value_fixed_thresholds": 331344.7936814012,
+    "value_reoptimized": 341973.56653493986,
+    "t_verify": 0.022433741949498653,
+    "t_block": 0.44962526857852936
+   },
+   {
+    "param": "otp_effectiveness",
+    "change": 0.2,
+    "value_fixed_thresholds": 383460.79053627886,
+    "value_reoptimized": 386189.2205362264,
+    "t_verify": 0.021912175230681896,
+    "t_block": 0.9934134185314178
+   },
+   {
+    "param": "otp_effectiveness",
+    "change": 0.5,
+    "value_fixed_thresholds": 383460.79053627886,
+    "value_reoptimized": 386189.2205362264,
+    "t_verify": 0.021912175230681896,
+    "t_block": 0.9934134185314178
+   }
+  ]
+ },
+ "comparison_B_vs_A": {
+  "extra_value_per_month_usd": 2789.0817495933684,
+  "extra_compute_per_month_usd": 0.0007804901109235756,
+  "extra_latency_ms": 0.2265209999450235
+ }
+}

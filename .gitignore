@@ -218,3 +218,8 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# FraudScan
+data/
+reports/scores/
+artifacts/hgb.joblib

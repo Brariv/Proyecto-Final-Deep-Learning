@@ -1,0 +1,7 @@
+# Dependencias mínimas del servicio (imagen de Docker).
+--extra-index-url https://download.pytorch.org/whl/cpu
+numpy>=1.26
+torch>=2.2
+fastapi>=0.110
+uvicorn>=0.29
+pydantic>=2.6

@@ -1,0 +1,197 @@
+{
+ "costs": {
+  "chargeback_fee": 15.0,
+  "verification_cost": 0.25,
+  "friction_cost_verify": 1.0,
+  "friction_cost_block": 10.0,
+  "otp_effectiveness": 0.9
+ },
+ "profile": "full",
+ "models": {
+  "A": {
+   "file": "mlp_cost.pt",
+   "name": "mlp_cost",
+   "thresholds": {
+    "t_verify": 0.06398460268974304,
+    "t_block": 0.7015909254550934
+   },
+   "test": {
+    "value_usd": 297909.9725264389,
+    "pct_of_oracle": 0.6523024051704389,
+    "recall": 0.5211882918304936,
+    "precision": 0.14298555761970397,
+    "net_value_per_month_usd": 12412.915384164517
+   },
+   "latency": {
+    "p50_ms": 0.03998500005764072,
+    "p95_ms": 0.05462694981588361,
+    "throughput_tx_s": 1250528.5589910548
+   }
+  },
+  "B": {
+   "file": "lstm_cost.pt",
+   "name": "lstm_cost",
+   "thresholds": {
+    "t_verify": 0.022433741949498653,
+    "t_block": 0.721739798784256
+   },
+   "test": {
+    "value_usd": 364847.9345166797,
+    "pct_of_oracle": 0.79886948123422,
+    "recall": 0.7643075578855395,
+    "precision": 0.22064573086139488,
+    "net_value_per_month_usd": 15201.996353267774
+   },
+   "latency": {
+    "p50_ms": 0.2665060000026642,
+    "p95_ms": 0.3730945499455629,
+    "throughput_tx_s": 65152.87503365058
+   }
+  }
+ },
+ "iterations": [
+  {
+   "iteracion": "0 · Reglas fijas",
+   "cambio": "Proceso actual: reglas escritas a mano, sin modelo",
+   "ap_train": null,
+   "ap_val": null,
+   "ap_test": null,
+   "recall_test": 0.45391000436872,
+   "precision_test": 0.019414210305040407,
+   "f1_test": 0.037235805864908204,
+   "valor_test_usd": 211965.59152232058,
+   "valor_ic95_bajo": 167280.06167250386,
+   "valor_ic95_alto": 262437.68355901126,
+   "pct_maximo": 0.464118955101826,
+   "valor_neto_mes_usd": 8831.899646763357,
+   "fraude_no_detectado_usd": 82353.62000576966,
+   "verificaciones": 106899,
+   "bloqueos": 136,
+   "legitimas_molestadas": 104957,
+   "entrenamiento_s": 0.0,
+   "dispositivo": "cpu",
+   "latencia_p50_ms": 0.0,
+   "costo_1k_pred_usd": 0.0
+  },
+  {
+   "iteracion": "1 · Gradient boosting",
+   "cambio": "Alternativa clásica con las mismas variables y pesos que el modelo A",
+   "ap_train": 0.9712633756731438,
+   "ap_val": 0.7954571299620886,
+   "ap_test": 0.1750758583927717,
+   "recall_test": 0.40956749672346004,
+   "precision_test": 0.12432862542271733,
+   "f1_test": 0.1907523271783916,
+   "valor_test_usd": 192008.59342029746,
+   "valor_ic95_bajo": 167311.45604618435,
+   "valor_ic95_alto": 220391.20947250037,
+   "pct_maximo": 0.42042119718008925,
+   "valor_neto_mes_usd": 8000.348693084104,
+   "fraude_no_detectado_usd": 228738.28011547402,
+   "verificaciones": 14282,
+   "bloqueos": 799,
+   "legitimas_molestadas": 13206,
+   "entrenamiento_s": 101.70287823677063,
+   "dispositivo": "cpu",
+   "latencia_p50_ms": 2.7183139999351624,
+   "costo_1k_pred_usd": 6.52395359984439e-05
+  },
+  {
+   "iteracion": "2 · Modelo A0 (MLP)",
+   "cambio": "Red densa, pérdida estándar (BCE), con embedding del país o estado del comercio",
+   "ap_train": 0.8786034600415594,
+   "ap_val": 0.7340550823184322,
+   "ap_test": 0.04179773370643935,
+   "recall_test": 0.14263870685889035,
+   "precision_test": 0.037563276576161986,
+   "f1_test": 0.05946635096985702,
+   "valor_test_usd": 45122.89215635229,
+   "valor_ic95_bajo": 33057.60066242647,
+   "valor_ic95_alto": 59051.51150625789,
+   "pct_maximo": 0.09880089220317304,
+   "valor_neto_mes_usd": 1880.120352022973,
+   "fraude_no_detectado_usd": 381466.81038456224,
+   "verificaciones": 16925,
+   "bloqueos": 459,
+   "legitimas_molestadas": 16731,
+   "entrenamiento_s": 92.22120237350464,
+   "dispositivo": "cpu",
+   "latencia_p50_ms": 0.0448380000079851,
+   "costo_1k_pred_usd": 1.0761120001916423e-06
+  },
+  {
+   "iteracion": "3 · Modelo A1 (MLP)",
+   "cambio": "Se quita la identidad de la ubicación; quedan las señales genéricas",
+   "ap_train": 0.8648325541533197,
+   "ap_val": 0.7602474951208728,
+   "ap_test": 0.3591473100605422,
+   "recall_test": 0.7083879423328965,
+   "precision_test": 0.13938794807874152,
+   "f1_test": 0.2329406694440454,
+   "valor_test_usd": 302915.27247158776,
+   "valor_ic95_bajo": 266882.3957798112,
+   "valor_ic95_alto": 339038.78576205566,
+   "pct_maximo": 0.6632619885812638,
+   "valor_neto_mes_usd": 12621.469550228872,
+   "fraude_no_detectado_usd": 101791.03005694412,
+   "verificaciones": 22148,
+   "bloqueos": 1118,
+   "legitimas_molestadas": 20023,
+   "entrenamiento_s": 80.14872312545776,
+   "dispositivo": "cpu",
+   "latencia_p50_ms": 0.03949649999412941,
+   "costo_1k_pred_usd": 9.479159998591059e-07
+  },
+  {
+   "iteracion": "4 · Modelo A (MLP)",
+   "cambio": "Igual que A1, con pérdida ponderada por el costo del error",
+   "ap_train": 0.8252628412840435,
+   "ap_val": 0.7141111091212786,
+   "ap_test": 0.23988180681378135,
+   "recall_test": 0.5211882918304936,
+   "precision_test": 0.14298555761970397,
+   "f1_test": 0.2244063014342817,
+   "valor_test_usd": 297909.9725264389,
+   "valor_ic95_bajo": 263165.3964199593,
+   "valor_ic95_alto": 334651.459600252,
+   "pct_maximo": 0.6523024051704389,
+   "valor_neto_mes_usd": 12412.915384164517,
+   "fraude_no_detectado_usd": 116872.14000845328,
+   "verificaciones": 15597,
+   "bloqueos": 1090,
+   "legitimas_molestadas": 14301,
+   "entrenamiento_s": 80.9482696056366,
+   "dispositivo": "cpu",
+   "latencia_p50_ms": 0.03998500005764072,
+   "costo_1k_pred_usd": 9.596400013833773e-07
+  },
+  {
+   "iteracion": "5 · Modelo B (LSTM)",
+   "cambio": "LSTM sobre las últimas 16 transacciones de la tarjeta, pérdida por costo",
+   "ap_train": 0.930442030694369,
+   "ap_val": 0.8186527666454816,
+   "ap_test": 0.5638386020739916,
+   "recall_test": 0.7643075578855395,
+   "precision_test": 0.22064573086139488,
+   "f1_test": 0.3424349187707966,
+   "valor_test_usd": 364847.9345166797,
+   "valor_ic95_bajo": 324053.469605148,
+   "valor_ic95_alto": 407618.0051935073,
+   "pct_maximo": 0.79886948123422,
+   "valor_neto_mes_usd": 15201.996353267774,
+   "fraude_no_detectado_usd": 54706.5200145822,
+   "verificaciones": 14096,
+   "bloqueos": 1762,
+   "legitimas_molestadas": 12359,
+   "entrenamiento_s": 1558.8383643627167,
+   "dispositivo": "cpu",
+   "latencia_p50_ms": 0.2665060000026642,
+   "costo_1k_pred_usd": 6.396144000063942e-06
+  }
+ ],
+ "comparison_B_vs_A": {
+  "extra_value_per_month_usd": 2789.0817495933684,
+  "extra_compute_per_month_usd": 0.0007804901109235756,
+  "extra_latency_ms": 0.2265209999450235
+ }
+}
