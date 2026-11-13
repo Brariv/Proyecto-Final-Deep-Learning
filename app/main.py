@@ -15,12 +15,13 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
 from fraudscan import schema as S
+from fraudscan import statement as ST
 from fraudscan.online import CardState, Transaction
 from fraudscan.service import Scorer
 
@@ -54,6 +55,14 @@ class Demo:
 
 demo = Demo()
 
+# Estados de cuenta de ejemplo: historial de la tarjeta al inicio del periodo y etiquetas reales.
+try:
+    with open(ARTIFACTS / "statements.json", encoding="utf-8") as _f:
+        STATEMENTS = json.load(_f)
+except FileNotFoundError:
+    STATEMENTS = {}
+MAX_PDF_BYTES = 5 * 1024 * 1024
+
 
 def fmt_ts(ts: int) -> str:
     return (datetime(1970, 1, 1, tzinfo=timezone.utc) + timedelta(minutes=int(ts))).strftime("%Y-%m-%d %H:%M")
@@ -76,7 +85,7 @@ class ScoreRequest(BaseModel):
     errors: list[str] = Field(default_factory=list)
     minutes_after_last: int = Field(60, ge=0, description="Minutos desde la última compra de la tarjeta")
     model: str = Field("B", description="A = MLP, B = LSTM")
-    commit: bool = Field(True, description="Agregar la transacción al historial de la tarjeta")
+    commit: bool = Field(True, description="Agregar la transacción al historial si no se bloquea")
 
 
 class StreamRequest(BaseModel):
@@ -130,7 +139,11 @@ def score(req: ScoreRequest):
     tx = Transaction(ts=last + req.minutes_after_last, amount=req.amount, channel=req.channel,
                      merchant=req.merchant or f"demo-{req.mcc}-{req.loc}", mcc=req.mcc, loc=req.loc,
                      errors=req.errors)
-    out = scorer.score(state, tx, model=req.model, commit=req.commit)
+    out = scorer.score(state, tx, model=req.model, commit=False)
+    # Una compra bloqueada no llega a ocurrir, así que no entra al historial de la tarjeta.
+    out["committed"] = bool(req.commit and out["decision"] != S.BLOCK)
+    if out["committed"]:
+        state.commit(tx, *state.features(tx, scorer.vocab))
     out["timestamp"] = fmt_ts(tx.ts)
     out["card"] = card_summary(req.card_id, state)
     return out
@@ -175,6 +188,60 @@ def stream_next(req: StreamRequest):
     demo.pos += len(rows)
     return {"rows": rows, "position": demo.pos, "total": len(demo.stream), "totals": demo.totals,
             "stats": scorer.stats()}
+
+
+@app.get("/api/statement/samples")
+def statement_samples():
+    """Estados de cuenta de ejemplo que se pueden descargar y volver a subir."""
+    return [{"statement_id": sid, "title": s["title"], "description": s["description"],
+             "url": f"/static/samples/{s['file']}", "file": s["file"]} for sid, s in STATEMENTS.items()]
+
+
+@app.post("/api/statement")
+async def analyze_statement(request: Request, model: str = "B"):
+    """Recibe un estado de cuenta en PDF (cuerpo de la petición) y analiza si contiene fraude."""
+    if model not in scorer.models:
+        raise HTTPException(422, f"Modelo desconocido: {model}. Opciones: {list(scorer.models)}")
+    data = await request.body()
+    if not data:
+        raise HTTPException(422, "No se recibió ningún archivo.")
+    if len(data) > MAX_PDF_BYTES:
+        raise HTTPException(413, "El PDF pesa más de 5 MB.")
+    try:
+        header, txs = ST.parse_pdf(data)
+    except ST.StatementError as exc:
+        raise HTTPException(422, str(exc)) from exc
+
+    known = STATEMENTS.get(header["statement_id"])
+    warnings = []
+    if known and len(known["truth"]) == len(txs):
+        state = CardState.from_dict(known["state"])              # copia nueva: no altera el demo
+        truth = known["truth"]
+    else:
+        # Tarjeta desconocida: se parte sin historial y se usan los datos del encabezado.
+        state = CardState(header["credit_limit"], header["card_type"], header["has_chip"], header["home_state"],
+                          seq_len=int(scorer.vocab_meta["seq_len"]))
+        truth = None
+        warnings.append("No hay historial previo de esta tarjeta: las primeras compras del periodo se evalúan "
+                        "con menos contexto y el resultado es menos confiable.")
+    out = scorer.analyze_statement(state, txs, model=model)
+    for i, r in enumerate(out["rows"]):
+        day, hour = ST.ts_to_date_time(r.pop("ts"))
+        r.update(n=i + 1, date=day, time=hour, channel=S.CHANNEL_LABELS[r["channel"]], mcc_name=S.mcc_name(r["mcc"]),
+                 loc=ST.ONLINE_LABEL if r["loc"] == S.ONLINE_LOC else r["loc"],
+                 errors=[S.ERROR_LABELS[e] for e in r["errors"]])
+        if truth is not None:
+            r["is_fraud"] = bool(truth[i])
+    out["header"] = header
+    out["warnings"] = warnings
+    if truth is not None:                                        # solo para los ejemplos: comparación con la realidad
+        flagged = [r["decision"] != S.APPROVE for r in out["rows"]]
+        out["truth"] = {
+            "frauds": int(sum(truth)),
+            "frauds_flagged": int(sum(1 for f, t in zip(flagged, truth) if f and t)),
+            "false_alarms": int(sum(1 for f, t in zip(flagged, truth) if f and not t)),
+        }
+    return out
 
 
 @app.post("/api/reset")

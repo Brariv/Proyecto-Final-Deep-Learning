@@ -153,6 +153,39 @@ class Scorer:
             "context": context, "other_models": others,
         }
 
+    # ------------------------------------------------------------------ estados de cuenta
+    def analyze_statement(self, state: CardState, txs: list[Transaction], model: str = "B") -> dict:
+        """Puntúa en orden cronológico todas las transacciones de un estado de cuenta. `state` es el
+        historial de la tarjeta al inicio del periodo y se va actualizando (pasa una copia)."""
+        rows = []
+        for tx in txs:
+            out = self.score(state, tx, model=model, commit=True)
+            rows.append({"ts": tx.ts, "amount": tx.amount, "channel": tx.channel, "mcc": tx.mcc, "loc": tx.loc,
+                         "errors": tx.errors, "score": out["score"], "decision": out["decision"],
+                         "decision_label": out["decision_label"], "reasons": out["reasons"],
+                         "latency_ms": out["latency_ms"], "context": out["context"]})
+        blocked = [r for r in rows if r["decision"] == S.BLOCK]
+        verify = [r for r in rows if r["decision"] == S.VERIFY]
+        if blocked:
+            verdict = {"level": "ALTO", "title": "Fraude probable",
+                       "text": "Hay transacciones que el modelo bloquearía. Conviene bloquear la tarjeta y contactar al titular."}
+        elif verify:
+            verdict = {"level": "MEDIO", "title": "Revisar",
+                       "text": "Hay transacciones dudosas. Conviene confirmarlas con el titular antes de tomar otra acción."}
+        else:
+            verdict = {"level": "BAJO", "title": "Sin señales de fraude",
+                       "text": "Ninguna transacción supera el umbral de verificación."}
+        charge = lambda rs: float(sum(max(r["amount"], 0.0) for r in rs))   # noqa: E731
+        summary = {
+            "transactions": len(rows), "total_usd": charge(rows),
+            "blocked": len(blocked), "blocked_usd": charge(blocked),
+            "verify": len(verify), "verify_usd": charge(verify),
+            "max_score": max((r["score"] for r in rows), default=0.0),
+            "latency_total_ms": float(sum(r["latency_ms"] for r in rows)),
+        }
+        return {"model": model, "rows": rows, "summary": summary, "verdict": verdict,
+                "thresholds": self.thresholds[model]}
+
     # ------------------------------------------------------------------ valor y operación
     def realized_value(self, decision: int, is_fraud: bool, amount: float) -> float:
         """Valor en USD de una decisión cuando ya se conoce la etiqueta real (solo para el demo)."""

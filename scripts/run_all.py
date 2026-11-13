@@ -12,7 +12,7 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 STEPS = ["01_prepare_data.py", "02_train_baselines.py", "03_train_mlp.py", "04_train_lstm.py",
-         "05_evaluate.py", "06_export_demo.py"]
+         "05_evaluate.py", "06_export_demo.py", "07_make_statements.py"]
 
 if __name__ == "__main__":
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)

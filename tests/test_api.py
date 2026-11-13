@@ -51,6 +51,45 @@ def test_validation_errors():
     assert r.status_code == 422
 
 
+def test_blocked_purchase_does_not_enter_history():
+    client.post("/api/reset")
+    meta, card = _card()
+    model = "B" if "B" in meta["models"] else "A"
+    before = card["prior_transactions"]
+    r = client.post("/api/score", json={"card_id": card["id"], "amount": 950, "channel": "Swipe Transaction",
+                                        "mcc": 5311, "loc": "Italy", "minutes_after_last": 5, "model": model}).json()
+    assert r["card"]["prior_transactions"] == before + (1 if r["committed"] else 0)
+    assert r["committed"] == (r["decision"] != 2)
+    client.post("/api/reset")
+
+
+def test_statement_samples_are_analyzed():
+    samples = client.get("/api/statement/samples").json()
+    if not samples:
+        pytest.skip("No hay estados de cuenta de ejemplo")
+    static = Path(__file__).resolve().parent.parent / "app" / "static" / "samples"
+    by_file = {}
+    for s in samples:
+        r = client.post("/api/statement?model=B", content=(static / s["file"]).read_bytes(),
+                        headers={"Content-Type": "application/pdf"})
+        assert r.status_code == 200, r.text
+        out = r.json()
+        assert out["header"]["statement_id"] == s["statement_id"]
+        assert out["summary"]["transactions"] == len(out["rows"]) > 0
+        assert out["truth"]["frauds"] == sum(row["is_fraud"] for row in out["rows"])
+        by_file[s["file"]] = out
+    clean, fraud = by_file["estado_sin_fraude.pdf"], by_file["estado_fraude_en_linea.pdf"]
+    assert clean["verdict"]["level"] == "BAJO" and clean["truth"]["frauds"] == 0
+    assert fraud["verdict"]["level"] == "ALTO" and fraud["truth"]["frauds_flagged"] >= 1
+
+
+def test_statement_rejects_bad_uploads():
+    assert client.post("/api/statement", content=b"").status_code == 422
+    assert client.post("/api/statement", content=b"no soy un pdf").status_code == 422
+    assert client.post("/api/statement?model=Z", content=b"x").status_code == 422
+    assert client.post("/api/statement", content=b"0" * (5 * 1024 * 1024 + 1)).status_code == 413
+
+
 def test_stream_accumulates_value_and_resets():
     client.post("/api/reset")
     meta, _ = _card()

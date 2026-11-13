@@ -10,7 +10,7 @@ Proyecto final de CC3092 Deep Learning y Sistemas Inteligentes (UVG). Integrante
 |---|---|
 | `fraudscan/` | Paquete: preprocesamiento, variables, modelos, entrenamiento, modelo de valor, evaluación y servicio |
 | `scripts/` | Pasos del pipeline, numerados en el orden en que se corren |
-| `app/` | API (FastAPI) y página del demo |
+| `app/` | API (FastAPI), página del demo y estados de cuenta de ejemplo en PDF |
 | `artifacts/` | Modelos entrenados, umbrales y datos del demo (lo único que necesita el servicio) |
 | `reports/` | Métricas, tabla de iteraciones y figuras |
 | `tests/` | Pruebas del modelo de valor, de la paridad entrenamiento/servicio y de la API |
@@ -87,6 +87,7 @@ O paso por paso (todos aceptan `--profile quick|full`):
 | `04_train_lstm.py` | Modelo B: LSTM sobre las últimas 16 transacciones de la tarjeta |
 | `05_evaluate.py` | Elige umbrales por valor en validación y reporta en prueba: métricas, valor, IC 95 %, sensibilidad, latencia y figuras |
 | `06_export_demo.py` | Exporta las tarjetas y transacciones del demo |
+| `07_make_statements.py` | Genera los estados de cuenta de ejemplo en PDF |
 | `ulb_benchmark.py` | Repite la comparación con el dataset real de ULB |
 
 El perfil `quick` entrena con 15 transacciones legítimas por cada fraude y 4 épocas, y termina en unos 6 minutos en CPU. El perfil `full` usa 100 por fraude y 12 épocas; en una CPU de 2 núcleos tardó unos 40 minutos, de los cuales 26 son la LSTM. Los artefactos y reportes del repositorio vienen del perfil `full`.
@@ -99,9 +100,31 @@ uvicorn app.main:app --reload
 
 Abre <http://127.0.0.1:8000>. El demo no necesita el dataset: usa lo que hay en `artifacts/`.
 
-- **Autorizar una transacción:** escribe cualquier compra para una de las tarjetas y el servicio responde con la decisión, el score, las razones y la latencia.
-- **Flujo del periodo de prueba:** reproduce transacciones de 2019 que el modelo nunca vio y acumula, en dólares, el valor del modelo A, del modelo B y de no tener modelo.
-- **API:** `POST /api/score` autoriza una transacción y `GET /api/stats` da las métricas operativas. La documentación interactiva está en `/docs`.
+- **Estado de cuenta (PDF):** sube un estado de cuenta y el servicio lee sus transacciones, las puntúa en orden con el modelo elegido y da un veredicto (sin señales, revisar o fraude probable) con las transacciones marcadas y el porqué de cada una.
+- **Analizar transacción:** escribe cualquier compra para una de las tarjetas y el servicio responde con la decisión, el puntaje, las señales y la latencia. Una compra bloqueada no entra al historial de la tarjeta.
+- **Flujo de prueba:** reproduce transacciones de 2018–2019 que el modelo nunca vio y acumula, en dólares, el valor del modelo A, del modelo B y de no tener modelo.
+- **Resultados del modelo:** la tabla de iteraciones y los supuestos de costo.
+- **API:** `POST /api/score` autoriza una transacción, `POST /api/statement` analiza un PDF y `GET /api/stats` da las métricas operativas. La documentación interactiva está en `/docs`.
+
+La página usa el sistema de diseño del handoff "Centinela" (colores, tipografía y componentes en `app/static/styles.css`). Las fuentes se cargan de Google Fonts; sin internet se usa una fuente del sistema.
+
+### Estados de cuenta en PDF
+
+El formato es propio del proyecto y está definido en `fraudscan/statement.py`: un encabezado con líneas "Etiqueta: valor" (número de estado, tarjeta, tipo, límite, residencia del titular, periodo) y una tabla con una transacción por fila (fecha, hora, categoría, ID de comercio, canal, ubicación, incidencia y monto). El banco es ficticio y el documento lo dice en su encabezado.
+
+En `app/static/samples/` hay cuatro ejemplos. Cada uno es un mes real de una tarjeta del periodo de prueba:
+
+| Archivo | Contenido | Resultado con el modelo B |
+|---|---|---|
+| `estado_sin_fraude.pdf` | 46 compras habituales | Sin señales; 0 falsas alarmas |
+| `estado_fraude_extranjero.pdf` | 28 compras, 16 fraudes en Italia | Fraude probable; marca 10 de 16, 0 falsas alarmas |
+| `estado_fraude_en_linea.pdf` | 28 compras, 11 fraudes en línea | Fraude probable; marca 11 de 11, 1 falsa alarma |
+| `estado_viajero.pdf` | 47 compras legítimas, casi todas en el extranjero | Sin señales; 0 falsas alarmas |
+
+- Para los ejemplos, el servicio conoce el historial de la tarjeta al inicio del mes y la etiqueta real de cada transacción (`artifacts/statements.json`), así que después de analizar muestra cuántos fraudes reales marcó. La etiqueta no está en el PDF y no se usa para decidir.
+- Un PDF con una tarjeta desconocida se analiza sin historial previo, y el servicio avisa que el resultado es menos confiable.
+- Un PDF con otro formato (por ejemplo, un estado de cuenta de un banco real) se rechaza con un mensaje claro. El archivo se procesa en memoria y no se guarda.
+- Para armar un estado propio, usa `statement.build_pdf(ruta, encabezado, transacciones)`; `tests/test_statement.py` tiene un ejemplo completo.
 
 Con Docker:
 
@@ -156,4 +179,5 @@ pytest -q
 
 - `test_value.py`: los umbrales óptimos coinciden con una búsqueda exhaustiva.
 - `test_online_parity.py`: el servicio calcula las mismas variables que el entrenamiento.
-- `test_api.py`: el servicio responde de punta a punta y valida entradas incorrectas.
+- `test_statement.py`: un estado de cuenta se puede escribir y volver a leer sin perder información.
+- `test_api.py`: el servicio responde de punta a punta, analiza los PDF de ejemplo y valida entradas incorrectas.
