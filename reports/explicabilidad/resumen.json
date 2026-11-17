@@ -1,0 +1,360 @@
+{
+ "seed": 42,
+ "modelo": "lstm_cost.pt",
+ "captum": "0.9.0",
+ "n_steps": 256,
+ "n_steps_local": 512,
+ "linea_base": "transacción neutra (media de entrenamiento en lo continuo, 0 en lo binario, categoría más frecuente en lo categórico), repetida en los 16 pasos",
+ "umbrales": {
+  "t_verify": 0.022433741949498653,
+  "t_block": 0.721739798784256
+ },
+ "score_linea_base_pts": 0.006409628986148164,
+ "muestras": {
+  "casos_locales": 6,
+  "fraudes_detectados": 2000,
+  "falsos_positivos": 2000,
+  "falsos_negativos": 1079,
+  "legitimas_aprobadas": 2000,
+  "validacion": 300,
+  "costo": 256
+ },
+ "completitud": {
+  "error_max_local": 0.002181112766265869,
+  "error_max_global": 0.0039675235748291016,
+  "error_corte_modelo": 0.0
+ },
+ "validacion": {
+  "spearman_ig_vs_oclusion": 0.9148809523809525,
+  "spearman_linea_base": 0.9977591036414566
+ },
+ "costo_ms": {
+  "ig_transaccion_suelta": 20.979035250000777,
+  "ig_en_lote_64": 20.152385449218713,
+  "oclusion_transaccion_suelta": 0.2629645625020771
+ },
+ "top_global": [
+  {
+   "variable": "is_foreign",
+   "etiqueta": "Comercio en el extranjero",
+   "fraudes_detectados_pts": 11.379324913024902,
+   "falsos_positivos_pts": 0.503669261932373,
+   "falsos_negativos_pts": 0.3082634508609772
+  },
+  {
+   "variable": "away_from_home",
+   "etiqueta": "Fuera del estado del titular",
+   "fraudes_detectados_pts": 7.9497175216674805,
+   "falsos_positivos_pts": 0.6974613070487976,
+   "falsos_negativos_pts": 0.1833079606294632
+  },
+  {
+   "variable": "mcc",
+   "etiqueta": "Categoría del comercio",
+   "fraudes_detectados_pts": 6.6824235916137695,
+   "falsos_positivos_pts": 8.53305721282959,
+   "falsos_negativos_pts": 0.11420094966888428
+  },
+  {
+   "variable": "merchant_new",
+   "etiqueta": "Comercio nuevo para la tarjeta",
+   "fraudes_detectados_pts": 6.267322063446045,
+   "falsos_positivos_pts": 2.644587755203247,
+   "falsos_negativos_pts": 0.10264810174703598
+  },
+  {
+   "variable": "log_amt_ratio",
+   "etiqueta": "Monto frente al habitual",
+   "fraudes_detectados_pts": 5.609994411468506,
+   "falsos_positivos_pts": 6.486186504364014,
+   "falsos_negativos_pts": 0.07702497392892838
+  },
+  {
+   "variable": "loc_share_prior",
+   "etiqueta": "Historial en esa ubicación",
+   "fraudes_detectados_pts": 3.7880773544311523,
+   "falsos_positivos_pts": 1.090685248374939,
+   "falsos_negativos_pts": 0.1131870448589325
+  },
+  {
+   "variable": "channel",
+   "etiqueta": "Canal de pago",
+   "fraudes_detectados_pts": 3.2989609241485596,
+   "falsos_positivos_pts": 4.619534015655518,
+   "falsos_negativos_pts": 0.06740826368331909
+  },
+  {
+   "variable": "state_changed",
+   "etiqueta": "Cambió de ubicación",
+   "fraudes_detectados_pts": 3.084853172302246,
+   "falsos_positivos_pts": 1.4098714590072632,
+   "falsos_negativos_pts": 0.07381108403205872
+  },
+  {
+   "variable": "hour_cos",
+   "etiqueta": "Hora (coseno)",
+   "fraudes_detectados_pts": 1.7678486108779907,
+   "falsos_positivos_pts": 0.735492467880249,
+   "falsos_negativos_pts": 0.053515173494815826
+  },
+  {
+   "variable": "log_amt",
+   "etiqueta": "Monto (log)",
+   "fraudes_detectados_pts": 1.574966549873352,
+   "falsos_positivos_pts": 1.397159457206726,
+   "falsos_negativos_pts": 0.036684658378362656
+  },
+  {
+   "variable": "log_dt_prev",
+   "etiqueta": "Tiempo desde la compra anterior",
+   "fraudes_detectados_pts": 1.3497921228408813,
+   "falsos_positivos_pts": 0.7764697074890137,
+   "falsos_negativos_pts": 0.031063338741660118
+  },
+  {
+   "variable": "card_has_chip",
+   "etiqueta": "Tarjeta con chip",
+   "fraudes_detectados_pts": 1.1466727256774902,
+   "falsos_positivos_pts": 0.5211013555526733,
+   "falsos_negativos_pts": 0.03335224464535713
+  },
+  {
+   "variable": "hour_sin",
+   "etiqueta": "Hora (seno)",
+   "fraudes_detectados_pts": 1.0776032209396362,
+   "falsos_positivos_pts": 1.9552178382873535,
+   "falsos_negativos_pts": 0.029340602457523346
+  },
+  {
+   "variable": "log_prior_count",
+   "etiqueta": "Compras previas de la tarjeta",
+   "fraudes_detectados_pts": 0.9739912152290344,
+   "falsos_positivos_pts": 0.6470564603805542,
+   "falsos_negativos_pts": 0.040186285972595215
+  },
+  {
+   "variable": "log_dt_5",
+   "etiqueta": "Tiempo desde la quinta anterior",
+   "fraudes_detectados_pts": 0.8703790903091431,
+   "falsos_positivos_pts": 0.3998108208179474,
+   "falsos_negativos_pts": 0.01978682540357113
+  },
+  {
+   "variable": "mcc_new",
+   "etiqueta": "Categoría nueva para la tarjeta",
+   "fraudes_detectados_pts": 0.8063637614250183,
+   "falsos_positivos_pts": 0.5271167755126953,
+   "falsos_negativos_pts": 0.0038071004673838615
+  }
+ ],
+ "atribucion_por_paso": {
+  "fraudes_detectados": [
+   0.9896689057350159,
+   1.0803868770599365,
+   1.2133370637893677,
+   1.3307654857635498,
+   1.4936233758926392,
+   1.5176116228103638,
+   1.6315125226974487,
+   1.8002784252166748,
+   2.076511859893799,
+   2.185127019882202,
+   2.350144624710083,
+   2.70036244392395,
+   2.9740869998931885,
+   3.9669084548950195,
+   5.15101432800293,
+   24.350664138793945
+  ],
+  "legitimas_aprobadas": [
+   0.0004241055285092443,
+   0.00043768726754933596,
+   0.0005168385105207562,
+   0.00048771704314276576,
+   0.0005498225218616426,
+   0.0005137190455570817,
+   0.0005263570346869528,
+   0.0005229279631748796,
+   0.0006617879844270647,
+   0.0015608785906806588,
+   0.0008379222708754241,
+   0.0012637110194191337,
+   0.0017987278988584876,
+   0.002453107852488756,
+   0.005654363427311182,
+   0.015728913247585297
+  ]
+ },
+ "casos": [
+  {
+   "caso": "Acierto con alta confianza",
+   "descripcion": "Fraude bloqueado con el score más alto del periodo",
+   "fila": 20971270,
+   "score": 0.999925971031189,
+   "real": "fraude",
+   "decision": "bloquear",
+   "monto_usd": 293.95001220703125,
+   "aporte_historial_pts": 67.49441623687744,
+   "top_senales": "Comportamiento reciente de la tarjeta (+67.5); Canal de pago (+13.0); Monto frente al habitual (+8.7)",
+   "senales": [
+    {
+     "etiqueta": "Comportamiento reciente de la tarjeta",
+     "puntos": 67.49441623687744
+    },
+    {
+     "etiqueta": "Canal de pago",
+     "puntos": 13.044233620166779
+    },
+    {
+     "etiqueta": "Monto frente al habitual",
+     "puntos": 8.67292508482933
+    }
+   ]
+  },
+  {
+   "caso": "Error: fraude no detectado",
+   "descripcion": "Fraude que el modelo aprobó, el error que cuesta dinero",
+   "fila": 22538002,
+   "score": 0.015962110832333565,
+   "real": "fraude",
+   "decision": "aprobar",
+   "monto_usd": 466.1300048828125,
+   "aporte_historial_pts": -0.16753554809838533,
+   "top_senales": "Monto frente al habitual (+1.0); Comercio en el extranjero (+0.9); Fuera del estado del titular (-0.5)",
+   "senales": [
+    {
+     "etiqueta": "Monto frente al habitual",
+     "puntos": 0.965608935803175
+    },
+    {
+     "etiqueta": "Comercio en el extranjero",
+     "puntos": 0.879274308681488
+    },
+    {
+     "etiqueta": "Fuera del estado del titular",
+     "puntos": -0.5055590998381376
+    }
+   ]
+  },
+  {
+   "caso": "Error: compra legítima bloqueada",
+   "descripcion": "Compra buena detenida, el error que molesta al cliente",
+   "fila": 14202676,
+   "score": 0.9855337738990784,
+   "real": "legítima",
+   "decision": "bloquear",
+   "monto_usd": 6613.43994140625,
+   "aporte_historial_pts": 8.10302048921585,
+   "top_senales": "Monto frente al habitual (+75.4); Canal de pago (+42.6); Hora (seno) (-20.9)",
+   "senales": [
+    {
+     "etiqueta": "Monto frente al habitual",
+     "puntos": 75.3964900970459
+    },
+    {
+     "etiqueta": "Canal de pago",
+     "puntos": 42.62874126434326
+    },
+    {
+     "etiqueta": "Hora (seno)",
+     "puntos": -20.91536372900009
+    }
+   ]
+  },
+  {
+   "caso": "Caso en el borde del umbral",
+   "descripcion": "Score pegado al umbral de verificación",
+   "fila": 6244984,
+   "score": 0.022438479587435722,
+   "real": "fraude",
+   "decision": "verificar",
+   "monto_usd": 1.309999942779541,
+   "aporte_historial_pts": 0.09361926349811256,
+   "top_senales": "Comercio nuevo para la tarjeta (+1.3); Comercio en el extranjero (+1.0); Fuera del estado del titular (-1.0)",
+   "senales": [
+    {
+     "etiqueta": "Comercio nuevo para la tarjeta",
+     "puntos": 1.3147532939910889
+    },
+    {
+     "etiqueta": "Comercio en el extranjero",
+     "puntos": 1.0383370332419872
+    },
+    {
+     "etiqueta": "Fuera del estado del titular",
+     "puntos": -0.9610188193619251
+    }
+   ]
+  },
+  {
+   "caso": "Subgrupo: compra en línea legítima",
+   "descripcion": "Compra en línea buena que el modelo marcó",
+   "fila": 18100113,
+   "score": 0.9967458248138428,
+   "real": "legítima",
+   "decision": "bloquear",
+   "monto_usd": 1121.4000244140625,
+   "aporte_historial_pts": 6.663510948419571,
+   "top_senales": "Canal de pago (+39.2); Monto frente al habitual (+34.1); Comercio nuevo para la tarjeta (+16.0)",
+   "senales": [
+    {
+     "etiqueta": "Canal de pago",
+     "puntos": 39.166685938835144
+    },
+    {
+     "etiqueta": "Monto frente al habitual",
+     "puntos": 34.10173058509827
+    },
+    {
+     "etiqueta": "Comercio nuevo para la tarjeta",
+     "puntos": 16.01090580224991
+    }
+   ]
+  },
+  {
+   "caso": "Subgrupo: fraude en el extranjero",
+   "descripcion": "La campaña de fraude que domina 2018-2019",
+   "fila": 3554979,
+   "score": 0.9280581474304199,
+   "real": "fraude",
+   "decision": "bloquear",
+   "monto_usd": 1442.6300048828125,
+   "aporte_historial_pts": 48.04648160934448,
+   "top_senales": "Comportamiento reciente de la tarjeta (+48.0); Monto frente al habitual (+32.6); Comercio en el extranjero (+20.1)",
+   "senales": [
+    {
+     "etiqueta": "Comportamiento reciente de la tarjeta",
+     "puntos": 48.04648160934448
+    },
+    {
+     "etiqueta": "Monto frente al habitual",
+     "puntos": 32.62135088443756
+    },
+    {
+     "etiqueta": "Comercio en el extranjero",
+     "puntos": 20.131659507751465
+    }
+   ]
+  }
+ ],
+ "baselines_interpretables": {
+  "Regresión logística": {
+   "value_usd": 261649.41952340605,
+   "pct_of_oracle": 0.572906452976897,
+   "recall": 0.41590214067278286,
+   "precision": 0.05631636546481706
+  },
+  "Árbol de decisión (prof. 3)": {
+   "value_usd": 126058.05735330582,
+   "pct_of_oracle": 0.27601618470619327,
+   "recall": 0.09086937527304499,
+   "precision": 0.031217169443193755
+  },
+  "Modelo B (LSTM)": {
+   "value_usd": 364847.9345166797,
+   "pct_of_oracle": 0.79886948123422,
+   "recall": 0.7643075578855395,
+   "precision": 0.22064573086139488
+  }
+ }
+}

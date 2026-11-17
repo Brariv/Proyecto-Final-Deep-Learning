@@ -10,6 +10,7 @@ matplotlib>=3.8
 fastapi>=0.110
 uvicorn>=0.29
 pydantic>=2.6
+captum>=0.8             # Integrated Gradients (explicabilidad, Laboratorio 10)
 pdfplumber>=0.11        # lectura de estados de cuenta en PDF
 reportlab>=4.0          # generación de los estados de cuenta de ejemplo
 # Solo para las pruebas

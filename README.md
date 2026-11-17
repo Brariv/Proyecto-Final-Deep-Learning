@@ -171,6 +171,36 @@ Los dos umbrales (verificar y bloquear) son los que maximizan ese valor en valid
 | Fraudes que la verificación sí detiene | 90 % |
 | Precio del cómputo | 0.000024 por vCPU-segundo |
 
+## Explicabilidad (Laboratorio 10)
+
+Las explicaciones usan **Integrated Gradients** de captum sobre el modelo B ya entrenado, sin reentrenarlo. El código está en `fraudscan/explain.py` y todo se regenera con una sola semilla:
+
+```bash
+python scripts/08_explain.py --profile full --seed 42     # figuras, tablas y resumen.json
+python scripts/09_lab10_report.py --profile full          # el PDF del laboratorio
+python scripts/10_lab10_docx.py --profile full            # el mismo reporte en .docx
+```
+
+El primer comando tarda unos cuatro minutos en CPU y necesita `data/processed` y los artefactos del modelo. Los dos últimos leen `reports/explicabilidad/resumen.json`, así que las cifras del reporte y las del repositorio salen de la misma corrida. El PDF y el Word comparten el texto: `09_lab10_report.py` arma el contenido y cada formato solo cambia cómo se dibuja.
+
+La portada toma el curso, la sección y el catedrático de las constantes al inicio de `09_lab10_report.py`, y se pueden cambiar por línea de comandos con `--seccion`, `--catedratico` y `--fecha`.
+
+| Archivo en `reports/explicabilidad/` | Contenido |
+|---|---|
+| `figuras/casos_locales.png` | Seis transacciones de prueba explicadas una por una: un acierto con alta confianza, un falso negativo, un falso positivo, un caso en el borde del umbral y dos subgrupos |
+| `figuras/global_variables.png` | Importancia agregada por variable, separando fraudes detectados de falsos positivos |
+| `figuras/global_pasos.png` | Cuánto aporta cada una de las 16 posiciones de la secuencia |
+| `figuras/validacion.png` | Integrated Gradients contra la oclusión del servicio, y sensibilidad a la línea base |
+| `casos_locales.csv` y `.md` | Los seis casos en números |
+| `global_variables.csv` | Atribución media por variable en los cuatro grupos (acierto, falso positivo, falso negativo, legítima aprobada) |
+| `resumen.json` | Parámetros, error de completitud, costo, validación y baselines interpretables |
+| `Laboratorio_10_Explainable_AI.pdf` | El reporte entregable |
+| `Laboratorio_10_Explainable_AI.docx` | El mismo reporte en Word, generado del mismo contenido |
+
+Cómo funciona: el modelo se parte en el codificador (que convierte una transacción en 43 dimensiones) y el resto de la red. Se atribuye sobre la salida del codificador, un tensor de 16 pasos por 43 dimensiones, así que una sola corrida da la importancia por variable y por posición de la secuencia. La línea base es una transacción neutra repetida en los 16 pasos. El error de completitud se reporta en cada corrida.
+
+Lo que encontró, en corto: el modelo detecta fraudes sobre todo por geografía (que el comercio esté en el extranjero aporta 11.4 puntos de score en promedio) y se equivoca por categoría y monto. Los falsos negativos no tienen ninguna señal fuerte, es decir, son fraudes que se parecen a una compra normal. El orden de importancia coincide con el de la oclusión que ya usaba el servicio (Spearman 0.91), lo que permite dejar la oclusión en producción, a 0.3 ms, y usar Integrated Gradients para auditoría, a unos 20 ms.
+
 ## Pruebas
 
 ```bash
